@@ -18,3 +18,6 @@ You should have that files disposition in the project
 
 Install all dependencies:  
 ```pip install -r requirements.txt```
+
+## Sources
+- https://www.tensorflow.org/tutorials/load_data/images
