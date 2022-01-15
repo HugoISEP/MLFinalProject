@@ -51,15 +51,18 @@ train_ds = train_ds.cache().prefetch(buffer_size=AUTOTUNE)
 val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
 
 num_classes = 10
-
+'''
 model = tf.keras.Sequential([
   tf.keras.layers.Rescaling(1./255),
   tf.keras.layers.Conv2D(32, 3, activation='relu'),
   tf.keras.layers.MaxPooling2D(),
+  tf.keras.layers.Dropout(0.4),
   tf.keras.layers.Conv2D(32, 3, activation='relu'),
   tf.keras.layers.MaxPooling2D(),
+  tf.keras.layers.Dropout(0.4),
   tf.keras.layers.Conv2D(32, 3, activation='relu'),
   tf.keras.layers.MaxPooling2D(),
+  tf.keras.layers.Dropout(0.4),
   tf.keras.layers.Flatten(),
   tf.keras.layers.Dense(128, activation='relu'),
   tf.keras.layers.Dense(num_classes)
@@ -73,6 +76,21 @@ model.compile(
 model.fit(
   train_ds,
   validation_data=val_ds,
-  epochs=3
+  epochs=100
 )
+model.save('saved_model/my_model')
+'''
+
+
+new_model = tf.keras.models.load_model('saved_model/my_model')
+
+# Check its architecture
+new_model.summary()
+
+# Evaluate the restored model
+loss, acc = new_model.evaluate(train_ds, verbose=2)
+val_loss, val_acc = new_model.evaluate(val_ds, verbose=2)
+
+print('Restored model, accuracy: {:5.2f}%'.format(100 * val_acc), 'loss: {:5.2f}%'.format(100 * val_loss),
+      '|| Training accuracy: {:5.2f}%'.format(100*acc), 'training loss: {:5.2f}%'.format(100 * loss))
 

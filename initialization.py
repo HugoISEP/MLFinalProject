@@ -2,7 +2,7 @@ import os
 import librosa
 import matplotlib.pyplot as plt
 import librosa.display
-
+import sys
 
 def init_music_specs():
     directory_path = "Data/genres_original/"
@@ -23,5 +23,7 @@ def init_music_specs():
             plt.colorbar()
 
             music_file_name = "".join(music_file.split(".")[:2])
+            print(music_file)
             plt.savefig(target_directory + music_genre_directory + "/" + music_file_name)
             plt.close()
+
