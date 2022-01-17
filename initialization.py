@@ -2,7 +2,7 @@ import os
 import librosa
 import matplotlib.pyplot as plt
 import librosa.display
-import sys
+import numpy as np
 
 def init_music_specs():
     directory_path = "Data/genres_original/"
@@ -15,15 +15,15 @@ def init_music_specs():
             os.mkdir(target_directory + music_genre_directory)
         for music_file in os.listdir(directory_path + music_genre_directory):
             x, sr = librosa.load(directory_path + music_genre_directory + "/" + music_file)
-            X = librosa.stft(x)
-            Xdb = librosa.amplitude_to_db(abs(X))
-
+            hop_length = 1024
+            X = librosa.stft(x, hop_length=hop_length)
+            Xdb = librosa.amplitude_to_db(abs(X), ref=np.max)
             plt.figure(figsize=(14, 5))
-            librosa.display.specshow(Xdb, sr=sr, x_axis='time', y_axis='hz')
-            plt.colorbar()
 
+            librosa.display.specshow(Xdb, sr=sr,  hop_length=hop_length, x_axis='time', y_axis='log')
+            plt.colorbar()
+            plt.clim(-80, 0)
             music_file_name = "".join(music_file.split(".")[:2])
-            print(music_file)
             plt.savefig(target_directory + music_genre_directory + "/" + music_file_name)
             plt.close()
 
