@@ -1,4 +1,3 @@
-from initialization import init_music_specs
+from record_audio import predict_audio_record
 
-# init_music_specs()
-
+predict_audio_record()
