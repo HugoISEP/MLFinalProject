@@ -22,7 +22,7 @@ class Utils:
     @staticmethod
     def get_music_genre_directories():
         return [directory for directory in sorted(os.listdir(Utils.directory_path))
-                if not Utils.files_to_exclude.__contains__(directory)]
+               if not Utils.files_to_exclude.__contains__(directory)]
 
     @staticmethod
     def get_music_files_from_directory(genre_directory: str):
